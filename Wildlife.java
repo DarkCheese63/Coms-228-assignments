@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 
@@ -32,7 +32,8 @@ public class Wildlife
 		// 
 		// Employ the method next() of the Living class. 
 	}
-	
+
+	public
 	/**
 	 * Repeatedly generates plains either randomly or from reading files. 
 	 * Over each plain, carries out an input number of cycles of evolution. 
@@ -67,6 +68,13 @@ public class Wildlife
 		// 5. You may save some randomly generated plains as your own test cases. 
 		// 
 		// 6. It is not necessary to handle file input & output exceptions for this 
-		//    project. Assume data in an input file to be correctly formated. 
+		//    project. Assume data in an input file to be correctly formated.
+		Scanner input = new Scanner(System.in);
+		int choice;
+
+		while (true)
+		{
+			
+		}
 	}
 }

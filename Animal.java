@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 
@@ -11,7 +11,15 @@ package edu.iastate.cs2280.hw1;
  */
 public abstract class Animal extends Living implements MyAge
 {
-	protected int age;   // age of the animal 
+	protected int age;   // age of the animal
+	public void animal(Plain p, int c, int r, int a){
+		age = a;
+		column = c;
+		row = r;
+		plain = p;
+
+
+	}
 
 	@Override
 	/**
@@ -21,6 +29,6 @@ public abstract class Animal extends Living implements MyAge
 	public int myAge()
 	{
 		// TODO 
-		return 0; 
+		return age;
 	}
 }

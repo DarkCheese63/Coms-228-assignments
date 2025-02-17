@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 
@@ -20,6 +20,10 @@ public class Badger extends Animal
 	 */
 	public Badger (Plain p, int r, int c, int a) 
 	{
+		plain = p;
+		row = r;
+		column = c;
+		age = a;
 		// TODO 
 	}
 	
@@ -29,7 +33,7 @@ public class Badger extends Animal
 	public State who()
 	{
 		// TODO 
-		return null; 
+		return State.BADGER;
 	}
 	
 	/**
@@ -42,7 +46,19 @@ public class Badger extends Animal
 		// TODO 
 		// 
 		// See Living.java for an outline of the function. 
-		// See the project description for the survival rules for a badger. 
-		return null; 
+		// See the project description for the survival rules for a badger.
+		int[] population = new int[NUM_LIFE_FORMS];
+		this.census(population);
+
+		if(population[BADGER] == 0){
+			pNew.grid[row][column] = new Empty(pNew, row, column);
+		} else if(population[FOX] > 1 && population[BADGER] == 1){
+			pNew.grid[row][column] = new Fox(pNew, row, column, age);
+		} else if(population[RABBIT] > (population[FOX] + population[BADGER]) ){
+			pNew.grid[row][column] = new Empty(pNew, row, column);
+		}else{
+			pNew.grid[row][column] = new Badger(pNew, row, column, age + 1);
+		}
+		return pNew.grid[row][column];
 	}
 }

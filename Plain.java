@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 
@@ -40,7 +40,54 @@ public class Plain
 		// 
 		// 3) Fills in the grid according to the input file. 
 		// 
-		// Be sure to close the input file when you are done. 
+		// Be sure to close the input file when you are done.
+		File inputFile = new File(inputFileName);
+		Scanner input = new Scanner(inputFile);
+		String Line = input.nextLine();
+		width = 0;
+		Scanner LineScanner = new Scanner(Line);
+		while(LineScanner.hasNext()){
+			width++;
+			LineScanner.next();
+		}
+		LineScanner.close();
+		grid = new Living[width][width];
+		input.close();
+		input = new Scanner(inputFile);
+		int col = 0;
+		int row = 0;
+
+		while(input.hasNext()){
+			String Character = input.nextLine();
+			Scanner CharacterScanner = new Scanner(Character);
+			while(CharacterScanner.hasNext()){
+				String character = CharacterScanner.next();
+				if(character.equals("B")){
+					int age = CharacterScanner.nextInt();
+					grid[row][col] = new Badger(this, row, col, age);
+					col++;
+				}else if(character.equals("F")){
+					int age = CharacterScanner.nextInt();
+					grid[row][col] = new Fox(this, row, col, age);
+					col++;
+				}else if(character.equals("R")){
+					int age = CharacterScanner.nextInt();
+					grid[row][col] = new Rabbit(this, row, col, age);
+					col++;
+				}else if(character.equals("G")){
+					grid[row][col] = new Grass(this, row, col);
+					col++;
+				}else if(character.equals("E")){
+					grid[row][col] = new Empty(this, row, col);
+					col++;
+				}
+
+			}
+			CharacterScanner.close();
+			row++;
+			col = 0;
+		}
+		input.close();
 	}
 	
 	/**
@@ -49,6 +96,8 @@ public class Plain
 	 */
 	public Plain(int w)
 	{
+		width =w;
+		grid = new Living[width][width];
 		// TODO 
 	}
 	
@@ -56,7 +105,7 @@ public class Plain
 	public int getWidth()
 	{
 		// TODO  
-		return 0;  // to be modified 
+		return width;  // to be modified
 	}
 	
 	/**

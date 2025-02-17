@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 
@@ -38,13 +38,51 @@ public abstract class Living
 	 * Censuses all life forms in the 3 X 3 neighborhood in a plain. 
 	 * @param population  counts of all life forms
 	 */
-	protected void census(int population[ ])
+	protected void census(int population[])
 	{		
 		// TODO 
 		// 
 		// Count the numbers of Badgers, Empties, Foxes, Grasses, and Rabbits  
 		// in the 3x3 neighborhood centered at this Living object.  Store the 
-		// counts in the array population[] at indices 0, 1, 2, 3, 4, respectively. 
+		// counts in the array population[] at indices 0, 1, 2, 3, 4, respectively.
+		if (this.row != 0 && this.column != 0 && this.row != this.plain.getWidth() - 1
+				&& this.column != this.plain.getWidth() - 1) {
+			Living temp[][] = new Living[3][3];
+			int r = this.row - 1;
+			int c = this.column - 1;
+
+			for (int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					temp[i][j] = this.plain.grid[r][c];
+					c++;
+				}
+				r++;
+				c = this.column - 1;
+			}
+
+			for (int x = 0; x < temp.length; x++) {
+				for (int z = 0; z < temp[0].length; z++) {
+					if (temp[x][z].who() == State.BADGER) {
+						population[BADGER] += 1;
+					}
+					if (temp[x][z].who() == State.EMPTY) {
+						population[EMPTY] += 1;
+					}
+					if (temp[x][z].who() == State.FOX) {
+						population[FOX] += 1;
+					}
+					if (temp[x][z].who() == State.GRASS) {
+						population[GRASS] += 1;
+					}
+					if (temp[x][z].who() == State.RABBIT) {
+						population[RABBIT] += 1;
+					}
+
+				}
+
+			}
+
+		}
 	}
 
 	/**

@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 

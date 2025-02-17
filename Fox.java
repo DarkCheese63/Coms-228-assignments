@@ -2,7 +2,7 @@ package edu.iastate.cs2280.hw1;
 
 /**
  *  
- * @author
+ * @author Matthew Estes
  *
  */
 
@@ -20,6 +20,11 @@ public class Fox extends Animal
 	 */
 	public Fox (Plain p, int r, int c, int a) 
 	{
+		plain = p;
+		row = r;
+		column = c;
+		age = a;
+
 		// TODO 
 	}
 		
@@ -29,7 +34,7 @@ public class Fox extends Animal
 	public State who()
 	{
 		// TODO 
-		return null; 
+		return State.FOX;
 	}
 	
 	/**
@@ -42,7 +47,22 @@ public class Fox extends Animal
 		// TODO 
 		// 
 		// See Living.java for an outline of the function. 
-		// See the project description for the survival rules for a fox. 
-		return null; 
+		// See the project description for the survival rules for a fox.
+		int[] population = new int[NUM_LIFE_FORMS];
+		this.census(population);
+
+		if(population[FOX] == FOX_MAX_AGE){
+			pNew.grid[row][column] = new Empty(pNew, row, column);
+		}else if(population[BADGER] > population[FOX]){
+			pNew.grid[row][column] = new Badger(pNew, row, column, age);
+		}else if((population[BADGER] + population[FOX]) > population[RABBIT]){
+			pNew.grid[row][column] = new Empty(pNew, row, column);
+		}else{
+			pNew.grid[row][column] = new Fox(pNew, row, column, age + 1);
+		}
+
+
+
+		return pNew.grid[row][column];
 	}
 }
