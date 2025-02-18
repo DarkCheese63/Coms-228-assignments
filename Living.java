@@ -45,8 +45,12 @@ public abstract class Living
 		// Count the numbers of Badgers, Empties, Foxes, Grasses, and Rabbits  
 		// in the 3x3 neighborhood centered at this Living object.  Store the 
 		// counts in the array population[] at indices 0, 1, 2, 3, 4, respectively.
-		if (this.row != 0 && this.column != 0 && this.row != this.plain.getWidth() - 1
-				&& this.column != this.plain.getWidth() - 1) {
+
+
+		//checks for 2x3, 3x3, 2x2, 3x2
+		//accounts for the border of the grid
+		//3x3 plain
+		if (this.row != 0 && this.column != 0 && this.row != this.plain.getWidth() - 1 && this.column != this.plain.getWidth() - 1) {
 			Living temp[][] = new Living[3][3];
 			int r = this.row - 1;
 			int c = this.column - 1;
@@ -60,24 +64,178 @@ public abstract class Living
 				c = this.column - 1;
 			}
 
-			for (int x = 0; x < temp.length; x++) {
-				for (int z = 0; z < temp[0].length; z++) {
-					if (temp[x][z].who() == State.BADGER) {
-						population[BADGER] += 1;
-					}
-					if (temp[x][z].who() == State.EMPTY) {
-						population[EMPTY] += 1;
-					}
-					if (temp[x][z].who() == State.FOX) {
-						population[FOX] += 1;
-					}
-					if (temp[x][z].who() == State.GRASS) {
-						population[GRASS] += 1;
-					}
-					if (temp[x][z].who() == State.RABBIT) {
-						population[RABBIT] += 1;
-					}
+			add_population(population, temp);
 
+		}
+		// 2x3 plain
+		else if ((this.row == 0 && this.column != 0 && this.column != this.plain.getWidth() - 1) || (this.row == this.plain.getWidth() - 1 && this.column != 0 && this.column != this.plain.getWidth() - 1)) {
+			Living temp[][] = new Living[2][3];
+			// top row
+			if (this.row == 0) {
+
+				int r = this.row;
+				int c = this.column - 1;
+
+				for (int ii = 0; ii < 2; ii++) {
+					for (int jj = 0; jj < 3; jj++) {
+						temp[ii][jj] = this.plain.grid[r][c];
+						c++;
+					}
+					r++;
+					c = this.column - 1;
+				}
+
+			}
+			//bottom row
+			if (this.row == this.plain.getWidth() - 1) {
+
+				int r = this.row - 1;
+				int c = this.column - 1;
+
+				for (int ii = 0; ii < 2; ii++) {
+					for (int jj = 0; jj < 3; jj++) {
+						temp[ii][jj] = this.plain.grid[r][c];
+						c++;
+					}
+					r++;
+					c = this.column - 1;
+				}
+
+			}
+
+            add_population(population, temp);
+
+
+		}
+
+		// 3x2 plain
+
+		else if ((this.column == 0 && this.row != 0 && this.row != this.plain.getWidth() - 1) || (this.column == this.plain.getWidth() - 1 && this.row != 0 && this.row != this.plain.getWidth() - 1)) {
+			Living temp[][] = new Living[3][2];
+			// left column
+			if (this.column == 0) {
+
+				int r = this.row - 1;
+				int c = this.column;
+
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 2; j++) {
+						temp[i][j] = this.plain.grid[r][c];
+						c++;
+					}
+					r++;
+					c = this.column;
+				}
+
+			}
+			// right column
+			if (this.column == this.plain.getWidth() - 1) {
+
+				int r = this.row - 1;
+				int c = this.column - 1;
+
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 2; j++) {
+						temp[i][j] = this.plain.grid[r][c];
+						c++;
+					}
+					r++;
+					c = this.column - 1;
+				}
+
+			}
+
+			add_population(population, temp);
+
+		}
+		// 2x2 plain
+		else {
+			Living temp[][] = new Living[2][2];
+
+			//Top left corner
+			if (this.row == 0 && this.column == 0) {
+
+				for (int i = 0; i < 2; i++) {
+					for (int j = 0; j < 2; j++) {
+						temp[i][j] = this.plain.grid[i][j];
+
+					}
+				}
+
+			}
+			// Top right corner
+			if (this.row == 0 && this.column == this.plain.getWidth() - 1) {
+				int r = this.row;
+				int c = this.column - 1;
+				for (int i = 0; i < 2; i++) {
+					for (int j = 0; j < 2; j++) {
+						temp[i][j] = this.plain.grid[r][c];
+						c++;
+
+					}
+					r++;
+					c = this.column - 1;
+
+				}
+
+			}
+			// Bottom left corner
+			if (this.row == this.plain.getWidth() - 1 && this.column == 0) {
+				int r = this.row - 1;
+				int c = this.column;
+				for (int i = 0; i < 2; i++) {
+					for (int j = 0; j < 2; j++) {
+						temp[i][j] = this.plain.grid[r][c];
+						c++;
+
+					}
+					r++;
+					c = this.column;
+
+				}
+
+			}
+			// Bottom right corner
+			if (this.row == this.plain.getWidth() - 1 && this.column == this.plain.getWidth() - 1) {
+				int r = this.row - 1;
+				int c = this.column - 1;
+				for (int i = 0; i < 2; i++) {
+					for (int j = 0; j < 2; j++) {
+						temp[i][j] = this.plain.grid[r][c];
+						c++;
+
+					}
+					r++;
+					c = this.column - 1;
+
+				}
+
+			}
+			add_population(population, temp);
+
+		}
+	}
+
+	private void add_population(int[] population, Living[][] temp) {
+		for (int a = 0; a < temp.length; a++) {
+			for (int b = 0; b < temp[0].length; b++) {
+				if (temp[a][b] == null){
+					continue;
+				}
+				if (temp[a][b].who() == State.BADGER) {
+					population[BADGER] += 1;
+				}
+				if (temp[a][b].who() == State.EMPTY) {
+					population[EMPTY] += 1;
+				}
+				if (temp[a][b].who() == State.FOX) {
+					population[FOX] += 1;
+				}
+				if (temp[a][b].who() == State.GRASS) {
+					population[GRASS] += 1;
+				}
+				if (temp[a][b].who() == State.RABBIT) {
+					population[RABBIT] += 1;
 				}
 
 			}

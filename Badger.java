@@ -50,7 +50,7 @@ public class Badger extends Animal
 		int[] population = new int[NUM_LIFE_FORMS];
 		this.census(population);
 
-		if(population[BADGER] == 0){
+		if(age == BADGER_MAX_AGE){
 			pNew.grid[row][column] = new Empty(pNew, row, column);
 		} else if(population[FOX] > 1 && population[BADGER] == 1){
 			pNew.grid[row][column] = new Fox(pNew, row, column, age);

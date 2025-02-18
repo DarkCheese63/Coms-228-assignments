@@ -50,34 +50,34 @@ public class Plain
 			width++;
 			LineScanner.next();
 		}
-		LineScanner.close();
 		grid = new Living[width][width];
+		LineScanner.close();
 		input.close();
 		input = new Scanner(inputFile);
 		int col = 0;
 		int row = 0;
 
-		while(input.hasNext()){
-			String Character = input.nextLine();
-			Scanner CharacterScanner = new Scanner(Character);
+		while(input.hasNextLine()){
+			String line = input.nextLine();
+			Scanner CharacterScanner = new Scanner(line);
 			while(CharacterScanner.hasNext()){
 				String character = CharacterScanner.next();
-				if(character.equals("B")){
-					int age = CharacterScanner.nextInt();
+				if(character.charAt(0) == 'B'){
+					int age = Character.getNumericValue(character.charAt(1));
 					grid[row][col] = new Badger(this, row, col, age);
 					col++;
-				}else if(character.equals("F")){
-					int age = CharacterScanner.nextInt();
+				}else if(character.charAt(0) == 'F'){
+					int age = Character.getNumericValue(character.charAt(1));
 					grid[row][col] = new Fox(this, row, col, age);
 					col++;
-				}else if(character.equals("R")){
-					int age = CharacterScanner.nextInt();
+				}else if(character.charAt(0) == 'R'){
+					int age = Character.getNumericValue(character.charAt(1));
 					grid[row][col] = new Rabbit(this, row, col, age);
 					col++;
-				}else if(character.equals("G")){
+				}else if(character.charAt(0) == 'G'){
 					grid[row][col] = new Grass(this, row, col);
 					col++;
-				}else if(character.equals("E")){
+				}else if(character.charAt(0) == 'E'){
 					grid[row][col] = new Empty(this, row, col);
 					col++;
 				}
@@ -98,6 +98,8 @@ public class Plain
 	{
 		width =w;
 		grid = new Living[width][width];
+
+
 		// TODO 
 	}
 	
@@ -117,7 +119,24 @@ public class Plain
 	public void randomInit()
 	{
 		Random generator = new Random(); 
-		 
+		grid = new Living[width][width];
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < width; j++){
+				int fill = generator.nextInt(5);
+				if(fill == 0){
+					grid[i][j] = new Badger(this, i, j, 0);
+				}else if(fill == 1){
+					grid[i][j] = new Fox(this, i, j, 0);
+				}else if(fill == 2){
+					grid[i][j] = new Rabbit(this, i, j, 0);
+				}else if(fill == 3){
+					grid[i][j] = new Grass(this, i, j);
+				}else if (fill == 4){
+					grid[i][j] = new Empty(this, i, j);
+				}
+			}
+
+		}
 		// TODO 
 	}
 	
@@ -129,13 +148,31 @@ public class Plain
 	 */
 	public String toString()
 	{
-		// TODO
-		return null; 
+		String string = "";
+		for(int i=0; i<grid.length; i++){
+			for(int j = 0; j<grid[0].length; j++){
+				int age = 0;
+				if(grid[i][j].who() == State.BADGER){
+					string += "B" + (((Animal) grid[i][j]).myAge()) + " ";
+				}else if(grid[i][j].who() == State.FOX){
+					string += "F" + (((Animal) grid[i][j]).myAge()) + " ";
+				}else if(grid[i][j].who() == State.RABBIT){
+					string += "R" + (((Animal) grid[i][j]).myAge()) + " ";
+				}else if(grid[i][j].who() == State.GRASS){
+					string += "G ";
+				}else if(grid[i][j].who() == State.EMPTY){
+					string += "E ";
+				}
+
+			}
+			string += "\n";
+		}
+		return string;
 	}
-	
+
 
 	/**
-	 * Write the plain grid to an output file.  Also useful for saving a randomly 
+	 * Write the plain grid to an output file.  Also useful for saving a randomly
 	 * generated plain for debugging purpose. 
 	 * @throws FileNotFoundException
 	 */
@@ -149,6 +186,27 @@ public class Plain
 		//    B, E, F, G, R. Leave one blank space in between. Examples are given in
 		//    the project description. 
 		// 
-		// 3. Close the file. 
+		// 3. Close the file.
+		File file = new File(outputFileName);
+		PrintWriter output = new PrintWriter(file);
+
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j].who() == State.BADGER) {
+					output.print("B" + ((Animal) grid[i][j]).myAge() + " ");
+				} else if (grid[i][j].who() == State.FOX) {
+					output.print("F" + ((Animal) grid[i][j]).myAge() + " ");
+				} else if (grid[i][j].who() == State.RABBIT) {
+					output.print("R" + ((Animal) grid[i][j]).myAge() + " ");
+				} else if (grid[i][j].who() == State.EMPTY) {
+					output.print("E  ");
+				} else if (grid[i][j].who() == State.GRASS) {
+					output.print("G  ");
+				}
+			}
+			output.println();
+		}
+
+		output.close();
 	}			
 }

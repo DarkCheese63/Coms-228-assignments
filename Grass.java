@@ -1,5 +1,5 @@
 package edu.iastate.cs2280.hw1;
-
+import org.junit.jupiter.api.Test;
 /**
  *  
  * @author Matthew Estes
